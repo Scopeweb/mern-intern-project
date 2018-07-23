@@ -1,36 +1,31 @@
-/**
- * Import node modules
- */
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const chalk = require('chalk');
+const bodyParser = require('body-parser');
 
-/**
- * Load environment variables from .env file, where API keys and passwords are configured.
- */
+// Load environment variables from .env file, where API keys and passwords are configured.
 dotenv.load({
   path: '.env'
 });
 
-/**
- * Setup Express
- */
+// Initiate express
 const app = express();
 
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// API routes
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 
-/**
- * Expresss configuration
- */
+// Express Configuration
 app.set('host', '0.0.0.0');
-app.set('port', process.env.port || 8080);
+app.set('port', process.env.PORT || 8080);
 
-/**
- * Connect to Mongo database
- */
+// Connect to MongoDB
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true
 });
@@ -43,9 +38,7 @@ db.once('open', function () {
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
-/**
- * Use routes
- */
+// Routes
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
