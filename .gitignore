@@ -80,6 +80,6 @@ docs/_site/
 .env
 # Hide editer config
 .vscode
-.vs
+.vs/*
 # Sass Cache
 .sass-cache
