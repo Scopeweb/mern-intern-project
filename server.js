@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const chalk = require('chalk');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 // Load environment variables from .env file, where API keys and passwords are configured.
 dotenv.load({
@@ -36,7 +37,11 @@ db.once('open', function () {
   console.log(`${chalk.green('✓')} MongoDB database connected. Let's go 💪`)
 });
 
-app.get("/", (req, res) => res.send("Hello World!"));
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport config
+require('./config/passport')(passport);
 
 // Routes
 app.use('/api/users', users);
